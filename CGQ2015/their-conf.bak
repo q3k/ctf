@@ -1,0 +1,6 @@
+VERSION=1.0.0
+SERVER=127.0.0.1
+PORT=7788
+LOGFILE=auth.log
+LOGLEV=5
+ENCKEY=this_is_preshared_key
