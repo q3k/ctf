@@ -16,9 +16,9 @@ We were given a [minetest](https://www.minetest.net/) world file. This world fil
 
 The world contained a pre-exported (?) file named `challenge.mts`. So of course, I wrote a tool that convers this 'Minetest Schema' into a Verilog netlist, and then used formal methods (SymbiYosys's `cover property`) statement to figure out the required inputs.
 
-The solved is typical shite CTF-quality code. After loading the world into a hashmap in memory, it:
+The solver is typical shite CTF-quality code. After loading the world into a hashmap in memory, it:
 
-   - does a DFS starting from the lamp to establish inter-connected neighbours of circuit elements (ie. anything that can possible connect is treated as neighbours). This gives us basic routing information.
+   - does a DFS starting from the lamp to establish inter-connected neighbours of circuit elements (ie. anything that can possibly connect is treated as neighbours). This gives us basic routing information.
    - 'joins' elements across eachother as it does the search - this does basic work of building nets out of wire segments, and establishes connectivity information to gates (eg. what net connects to what gate and what role does that net play in this gate)
    - does another iteration on the now built circuit, but this time treating nets as hyperedges of a connectivity graph of gates, levers and the lamp
    - exports a netlist in Verilog
