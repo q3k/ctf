@@ -1,0 +1,12 @@
+[options]
+mode cover
+
+[engines]
+smtbmc
+
+[script]
+read -formal out2.v
+prep -top dut
+
+[files]
+out2.v
